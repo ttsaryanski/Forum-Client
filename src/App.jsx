@@ -5,7 +5,7 @@ import { ErrorProvider } from "./contexts/ErrorContext";
 import ErrorBoundary from "./components/boundary/ErrorBoundary";
 import Header from "./components/core/header/Header";
 import Home from "./components/home/Home";
-import Aside from "./components/aside/Aside";
+import SimpleNews from "./components/home/SimpleNews";
 import Footer from "./components/core/footer/Footer";
 import ErrorMsg from "./components/core/errorComponent/ErrorMsg";
 import Page404 from "./components/page 404/Page404";
@@ -20,17 +20,15 @@ function App() {
                 <ErrorMsg />
 
                 <div className="container">
-                    <main>
-                        <Routes>
-                            <Route path="/" element={<Home />} />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route
+                            path="/simpleNews/:newsId"
+                            element={<SimpleNews />}
+                        />
 
-                            <Route path="*" element={<Page404 />} />
-                        </Routes>
-                    </main>
-
-                    <aside>
-                        <Aside />
-                    </aside>
+                        <Route path="*" element={<Page404 />} />
+                    </Routes>
                 </div>
 
                 <Footer />

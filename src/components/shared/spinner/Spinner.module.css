@@ -6,6 +6,7 @@
     border-top-color: #3498db;
     animation: spin 2s linear infinite;
     position: relative;
+    margin: 2em auto;
 }
 
 .loader:before,

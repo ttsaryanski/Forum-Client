@@ -25,7 +25,7 @@ export default function Header() {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <a href="#">Notes</a>
+                        <a href="#">Forum</a>
                     </li>
                     <li>
                         <a href="#">New Theme</a>

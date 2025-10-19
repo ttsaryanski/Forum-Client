@@ -49,6 +49,26 @@ async function get(url, signal) {
     return requester("GET", url, undefined, signal);
 }
 
+async function post(url, data, signal) {
+    return requester("POST", url, data, signal);
+}
+
+async function put(url, data, signal) {
+    return requester("PUT", url, data, signal);
+}
+
+async function del(url, signal) {
+    return requester("DELETE", url, undefined, signal);
+}
+
+async function patch(url, signal) {
+    return requester("PATCH", url, undefined, signal);
+}
+
 export const api = {
     get,
+    post,
+    put,
+    del,
+    patch,
 };

@@ -16,7 +16,10 @@ export default function Page404() {
                 <div class="err">4</div>
                 <i class="far fa-question-circle fa-spin"></i>
                 <div class="err2">4</div>
-                <div class="msg" style={{ color: "#234465 " }}>
+                <div
+                    class="msg"
+                    style={{ color: "#234465 ", marginTop: "2em" }}
+                >
                     Ooops! Page Not Found
                     <p>
                         Let's go{" "}
