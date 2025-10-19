@@ -1,0 +1,44 @@
+import { useEffect, useState } from "react";
+
+import { newsServices } from "../../services/newsService";
+
+import Card from "./Card";
+import Spinner from "../shared/spinner/Spinner";
+import NothingYet from "../shared/NothingYet";
+
+export default function Home() {
+    const [news, setNews] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const abortController = new AbortController();
+        const signal = abortController.signal;
+
+        const fetchNews = async () => {
+            try {
+                const news = await newsServices.getAll(signal);
+                setNews(news);
+            } catch (error) {
+                console.log(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchNews();
+
+        return () => {
+            abortController.abort();
+        };
+    }, []);
+
+    return (
+        <div className="theme-title">
+            {isLoading && <Spinner />}
+
+            {!isLoading && news.length === 0 && <NothingYet />}
+
+            {news.length > 0 &&
+                news.map((item) => <Card key={item._id} {...item} />)}
+        </div>
+    );
+}
