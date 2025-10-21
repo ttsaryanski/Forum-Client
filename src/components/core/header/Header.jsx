@@ -10,12 +10,12 @@ export default function Header() {
                 </div>
                 <div className="mini-navbar">
                     <ul>
-                        {/* <li>
+                        <li>
                             <a href="#">Login</a>
                         </li>
                         <li>
                             <a href="#">Register</a>
-                        </li> */}
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -25,10 +25,10 @@ export default function Header() {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <a href="#">Forum</a>
+                        <a href="/themes">Forum</a>
                     </li>
                     <li>
-                        <a href="#">New Theme</a>
+                        <a href="/theme/create">New Theme</a>
                     </li>
                 </ul>
             </nav>

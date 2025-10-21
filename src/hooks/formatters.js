@@ -8,8 +8,8 @@ export function useFormatters() {
             timeZone: "Europe/Sofia",
         }).format(new Date(date));
 
-    const truncateText = (text) =>
-        text.length > 100 ? text.slice(0, 100) + "…" : text;
+    const truncateText = (text, length) =>
+        text.length > length ? text.slice(0, length) + "…" : text;
 
     return useMemo(() => ({ formatDate, truncateText }), []);
 }

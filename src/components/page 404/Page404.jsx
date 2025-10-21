@@ -21,12 +21,9 @@ export default function Page404() {
                     style={{ color: "#234465 ", marginTop: "2em" }}
                 >
                     Ooops! Page Not Found
-                    <p>
+                    <p className="p-404">
                         Let's go{" "}
-                        <Link
-                            to="/"
-                            style={{ color: "#234465 ", fontWeight: "bold" }}
-                        >
+                        <Link to="/" style={{ fontWeight: "bold" }}>
                             home
                         </Link>{" "}
                         and try from there.

@@ -48,7 +48,7 @@ export default function SimpleNews() {
             {isLoading && <Spinner />}
 
             {news && (
-                <div className="theme-title">
+                <div className="theme-title-100">
                     <div className="theme-name-wrapper">
                         <div className="theme-name">
                             <h2>{news.title}</h2>
