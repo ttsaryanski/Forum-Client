@@ -11,10 +11,10 @@ export default function Header() {
                 <div className="mini-navbar">
                     <ul>
                         <li>
-                            <a href="#">Login</a>
+                            <Link to="/auth/login">Login</Link>
                         </li>
                         <li>
-                            <a href="#">Register</a>
+                            <Link to="/auth/register">Register</Link>
                         </li>
                     </ul>
                 </div>

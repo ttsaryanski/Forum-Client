@@ -9,6 +9,8 @@ import SimpleNews from "./components/aside/SimpleNews";
 import Themes from "./components/themes/themes/Themes";
 import ThemeDetails from "./components/themes/themeDetails/ThemeDetails";
 import NewTheme from "./components/themes/newTheme/NewTheme";
+import Login from "./components/auth/login/Login";
+import Register from "./components/auth/register/Register";
 import Footer from "./components/core/footer/Footer";
 import ErrorMsg from "./components/core/errorComponent/ErrorMsg";
 import Page404 from "./components/page 404/Page404";
@@ -36,6 +38,9 @@ function App() {
                             element={<ThemeDetails />}
                         />
                         <Route path="/theme/create" element={<NewTheme />} />
+
+                        <Route path="/auth/login" element={<Login />} />
+                        <Route path="/auth/register" element={<Register />} />
 
                         <Route path="*" element={<Page404 />} />
                     </Routes>
