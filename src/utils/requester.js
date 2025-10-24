@@ -1,4 +1,11 @@
-const host = `${import.meta.env.VITE_APP_SERVER_URL}/api`;
+export const host = `${import.meta.env.VITE_APP_SERVER_URL}/api`;
+
+import { refreshAccessToken } from "./refresher";
+
+let accessToken = null;
+export function setAccessToken(token) {
+    accessToken = token;
+}
 
 async function requester(method, url, data, signal) {
     const option = {
@@ -7,6 +14,10 @@ async function requester(method, url, data, signal) {
         headers: {},
         signal,
     };
+
+    if (accessToken) {
+        option.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
 
     if (data != undefined) {
         if (data instanceof FormData) {
@@ -21,6 +32,13 @@ async function requester(method, url, data, signal) {
         const response = await fetch(host + url, option);
 
         if (!response.ok) {
+            if (response.status === 401) {
+                const refreshed = await refreshAccessToken();
+                if (refreshed) {
+                    return requester(method, url, data, signal);
+                }
+            }
+
             const error = await response.json();
 
             if (response.status === 429) {

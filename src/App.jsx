@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
+import { AuthProvider } from "./contexts/AuthContext";
 import { ErrorProvider } from "./contexts/ErrorContext";
 
 import ErrorBoundary from "./components/boundary/ErrorBoundary";
@@ -20,34 +21,42 @@ import "./App.css";
 function App() {
     return (
         <ErrorProvider>
-            <ErrorBoundary>
-                <Header />
-                <ErrorMsg />
+            <AuthProvider>
+                <ErrorBoundary>
+                    <Header />
+                    <ErrorMsg />
 
-                <div className="container">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route
-                            path="/simpleNews/:newsId"
-                            element={<SimpleNews />}
-                        />
+                    <div className="container">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route
+                                path="/simpleNews/:newsId"
+                                element={<SimpleNews />}
+                            />
 
-                        <Route path="/themes" element={<Themes />} />
-                        <Route
-                            path="/theme/details/:themeId"
-                            element={<ThemeDetails />}
-                        />
-                        <Route path="/theme/create" element={<NewTheme />} />
+                            <Route path="/themes" element={<Themes />} />
+                            <Route
+                                path="/theme/details/:themeId"
+                                element={<ThemeDetails />}
+                            />
+                            <Route
+                                path="/theme/create"
+                                element={<NewTheme />}
+                            />
 
-                        <Route path="/auth/login" element={<Login />} />
-                        <Route path="/auth/register" element={<Register />} />
+                            <Route path="/auth/login" element={<Login />} />
+                            <Route
+                                path="/auth/register"
+                                element={<Register />}
+                            />
 
-                        <Route path="*" element={<Page404 />} />
-                    </Routes>
-                </div>
+                            <Route path="*" element={<Page404 />} />
+                        </Routes>
+                    </div>
 
-                <Footer />
-            </ErrorBoundary>
+                    <Footer />
+                </ErrorBoundary>
+            </AuthProvider>
         </ErrorProvider>
     );
 }

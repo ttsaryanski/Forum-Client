@@ -408,6 +408,12 @@ p.error {
     border-color: red;
 }
 
+.input-error:focus {
+    outline: none;
+    border: 1px solid red;
+    border-left: 0.4em solid red;
+}
+
 /* page 404 */
 
 .mainbox {
@@ -512,6 +518,12 @@ form.login, form.register {
     font-size: 1em;
 }
 
+/* .login input:focus, .register input:focus {
+    outline: none;
+    border: 1px solid #999;
+    border-left: 0.4em solid green;
+} */
+
 .login select, .register select {
     border-color: #333;
     padding: 0.3em;
@@ -576,7 +588,8 @@ p.error {
     font-weight: bold;
 }
 
-.input-error {
+.register .input-error,
+.login .input-error {
     border-left-color: red;
     border-color: red;
 }
@@ -625,4 +638,14 @@ h2 {border-bottom: none;}
 .theme-name p {
     color: #234465;
     font-weight: bold;
+}
+
+#logout {
+    background-color: transparent;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    padding: 0;
+    cursor: pointer;
+    text-shadow: 1px 1px rgb(95, 94, 94);
 }

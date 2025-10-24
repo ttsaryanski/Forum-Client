@@ -12,12 +12,12 @@ export default function Page404() {
                     Sorry, we couldn’t find the page you’re looking for.
                 </p>
             </div> */}
-            <div class="mainbox">
-                <div class="err">4</div>
-                <i class="far fa-question-circle fa-spin"></i>
-                <div class="err2">4</div>
+            <div className="mainbox">
+                <div className="err">4</div>
+                <i className="far fa-question-circle fa-spin"></i>
+                <div className="err2">4</div>
                 <div
-                    class="msg"
+                    className="msg"
                     style={{ color: "#234465 ", marginTop: "2em" }}
                 >
                     Ooops! Page Not Found
