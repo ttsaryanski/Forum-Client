@@ -173,7 +173,7 @@ export default function Login() {
                             : {}
                     }
                 >
-                    Create Account
+                    Login
                 </button>
 
                 <p className="text-center">

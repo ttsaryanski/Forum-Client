@@ -37,6 +37,7 @@ export default function Themes() {
             abortController.abort();
         };
     }, [setError]);
+
     return (
         <div className="theme-title">
             {isLoading && <Spinner />}

@@ -12,6 +12,7 @@ import ThemeDetails from "./components/themes/themeDetails/ThemeDetails";
 import NewTheme from "./components/themes/newTheme/NewTheme";
 import Login from "./components/auth/login/Login";
 import Register from "./components/auth/register/Register";
+import Profile from "./components/auth/profile/Profile";
 import Footer from "./components/core/footer/Footer";
 import ErrorMsg from "./components/core/errorComponent/ErrorMsg";
 import Page404 from "./components/page 404/Page404";
@@ -49,6 +50,7 @@ function App() {
                                 path="/auth/register"
                                 element={<Register />}
                             />
+                            <Route path="/auth/profile" element={<Profile />} />
 
                             <Route path="*" element={<Page404 />} />
                         </Routes>
