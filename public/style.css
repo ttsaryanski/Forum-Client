@@ -129,10 +129,29 @@ nav {
     padding: 5px;
     border-radius: 20px;
     text-shadow: 1px 1px rgb(95, 94, 94);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    min-width: 120px;
 }
 
 .mini-navbar ul li:hover {
     scale: 1.1;
+}
+
+.mini-navbar ul li a,
+.mini-navbar ul li button {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
 }
 
 /* main */
@@ -758,4 +777,8 @@ h2 {border-bottom: none;}
     padding: 0;
     cursor: pointer;
     text-shadow: 1px 1px rgb(95, 94, 94);
+}
+
+.logged .verify-ul {
+    display: flex;
 }

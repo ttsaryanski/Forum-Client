@@ -5,6 +5,7 @@ const endPoints = {
     login: "/auth/login",
     logout: "/auth/logout",
     profile: "/auth/profile",
+    resendEmail: (email) => `/auth/resend-email?email=${email}`,
 };
 
 async function register(data) {
@@ -25,9 +26,14 @@ async function profile(signal) {
     return user;
 }
 
+async function resendEmail(email) {
+    return await api.post(endPoints.resendEmail(email));
+}
+
 export const authService = {
     register,
     login,
     logout,
     profile,
+    resendEmail,
 };

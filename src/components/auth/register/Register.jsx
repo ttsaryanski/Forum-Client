@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import { useAuth } from "../../../contexts/AuthContext";
 import { useError } from "../../../contexts/ErrorContext";
 
 import { authService } from "../../../services/authService";
 
 export default function Register() {
-    const { login } = useAuth();
     const { setError } = useError();
+    const navigate = useNavigate();
 
     const [pending, setPending] = useState(false);
     const [username, setUsername] = useState("");
@@ -40,7 +39,8 @@ export default function Register() {
                 password,
             });
 
-            await login(email, password);
+            localStorage.setItem("pendingEmail", email);
+            navigate("/auth/welcome");
             clearForm();
         } catch (error) {
             setError(`Registration failed: ${error.message}`);

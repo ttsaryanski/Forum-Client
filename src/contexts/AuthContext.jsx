@@ -49,25 +49,29 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = async (email, password) => {
+        setError(null);
         try {
-            setError(null);
             const result = await authService.login({ email, password });
             setAccessToken(result.accessToken);
             await fetchUser();
             navigate("/themes");
+            localStorage.removeItem("pendingEmail");
         } catch (err) {
-            setUser(null);
-            setAccessToken(null);
-            setError(err.message);
-            throw err;
+            if (err.message === "Please verify your email first!") {
+                navigate("/auth/welcome");
+            } else {
+                setAccessToken(null);
+                setError(err.message);
+                throw err;
+            }
         } finally {
             setIsLoading(false);
         }
     };
 
     const logout = async () => {
+        setError(null);
         try {
-            setError(null);
             await authService.logout();
             setAccessToken(null);
             setUser(null);
