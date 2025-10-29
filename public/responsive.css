@@ -15,3 +15,59 @@
         font-size: 18px;
     }
 }
+
+@media (max-width: 400px) {
+    html {
+        font-size: 12px;
+    }
+
+    .mini-navbar-wrap .logo-wrap .logo {
+        padding: 0px;
+        font-size: 2em;
+    }
+
+    .mini-navbar .responsive {
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .responsive:first-child {
+        margin-top: 10px;
+    }
+
+    header nav li {
+        width: auto;
+        /* white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; */
+    }
+
+    .container {
+        width: 100% !important;
+    }
+
+    .container .theme-title {
+        width: 100%;
+    }
+
+    .container aside {
+        width: 40%;
+    }
+
+    .container form.login,
+    .container form.register {
+        width: 100%;
+    }
+
+    .container .theme-content {
+        width: 100%;
+    }
+
+    .container .theme-name-wrapper {
+        text-shadow: none;
+    }
+
+    .container .new-theme-border {
+        width: 100%;
+    }
+}

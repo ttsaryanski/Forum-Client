@@ -14,7 +14,7 @@ export default function Header() {
                 </div>
                 <div className="mini-navbar">
                     {user ? (
-                        <ul>
+                        <ul className="responsive">
                             <li>
                                 <Link to="/auth/profile">
                                     {user.username}'s profile
@@ -27,7 +27,7 @@ export default function Header() {
                             </li>
                         </ul>
                     ) : (
-                        <ul>
+                        <ul className="responsive">
                             <li>
                                 <Link to="/auth/login">Login</Link>
                             </li>

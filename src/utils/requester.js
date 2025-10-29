@@ -8,6 +8,8 @@ export function setAccessToken(token) {
 }
 
 async function requester(method, url, data, signal) {
+    await loadCsrfToken();
+
     const option = {
         method,
         credentials: "include",
@@ -17,6 +19,10 @@ async function requester(method, url, data, signal) {
 
     if (accessToken) {
         option.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    if (method !== "GET" && csrfToken) {
+        option.headers["X-CSRF-Token"] = csrfToken;
     }
 
     if (data != undefined) {
@@ -90,3 +96,15 @@ export const api = {
     del,
     patch,
 };
+
+let csrfToken = undefined;
+async function loadCsrfToken() {
+    if (!csrfToken) {
+        const res = await fetch(host + "/csrf-token", {
+            credentials: "include",
+        });
+
+        const data = await res.json();
+        csrfToken = data.csrfToken;
+    }
+}
