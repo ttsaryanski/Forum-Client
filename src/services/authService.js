@@ -4,6 +4,7 @@ const endPoints = {
     register: "/auth/register",
     login: "/auth/login",
     logout: "/auth/logout",
+    changePassword: "/auth/change-password",
     profile: "/auth/profile",
     resendEmail: (email) => `/auth/resend-email?email=${email}`,
 };
@@ -20,6 +21,10 @@ async function logout() {
     return await api.post(endPoints.logout);
 }
 
+async function changePassword(data) {
+    return await api.post(endPoints.changePassword, data);
+}
+
 async function profile(signal) {
     const user = await api.get(endPoints.profile, signal);
 
@@ -34,6 +39,7 @@ export const authService = {
     register,
     login,
     logout,
+    changePassword,
     profile,
     resendEmail,
 };

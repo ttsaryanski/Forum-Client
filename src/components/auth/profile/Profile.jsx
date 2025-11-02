@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuth } from "../../../contexts/AuthContext";
 
 export default function Profile() {
@@ -21,7 +22,26 @@ export default function Profile() {
                     <p>Administrator</p>
                 </div>
             )}
-            <button className="edit-button">Edit</button>
+            <div className="buttons">
+                <div className="button edit-button">
+                    <p>Edit profile</p>
+                    <Link
+                        to="/auth/profile/editProfile"
+                        className="link link-button"
+                    >
+                        <i className="fa-regular fa-square-caret-right"></i>
+                    </Link>
+                </div>
+                <div className="button edit-button">
+                    <p>Edit Password</p>
+                    <Link
+                        to="/auth/profile/editPassword"
+                        className="link link-button"
+                    >
+                        <i className="fa-regular fa-square-caret-right"></i>
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }

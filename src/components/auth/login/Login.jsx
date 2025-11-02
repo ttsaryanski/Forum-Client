@@ -148,6 +148,7 @@ export default function Login() {
                         type="password"
                         id="password"
                         name="password"
+                        autoComplete="******"
                         placeholder="******"
                         value={password}
                         onChange={passwordChangeHandler}

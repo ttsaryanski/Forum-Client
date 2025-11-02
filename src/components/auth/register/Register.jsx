@@ -264,6 +264,7 @@ export default function Register() {
                         type="password"
                         id="password"
                         name="password"
+                        autoComplete="******"
                         placeholder="******"
                         value={password}
                         onChange={passwordChangeHandler}
@@ -294,6 +295,7 @@ export default function Register() {
                         type="password"
                         id="rePassword"
                         name="rePassword"
+                        autoComplete="******"
                         placeholder="******"
                         value={rePassword}
                         onChange={rePasswordChangeHandler}

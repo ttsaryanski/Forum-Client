@@ -18,6 +18,8 @@ import Register from "./components/auth/register/Register";
 import Welcome from "./components/auth/welcome/Welcome";
 import VerifedPage from "./components/auth/verifedPage/VerifedPage";
 import Profile from "./components/auth/profile/Profile";
+import EditProfile from "./components/auth/profile/edit/profile/EditProfile";
+import EditPassword from "./components/auth/profile/edit/password/EditPassword";
 import Footer from "./components/core/footer/Footer";
 import ErrorMsg from "./components/core/errorComponent/ErrorMsg";
 import Page404 from "./components/page 404/Page404";
@@ -76,6 +78,16 @@ function App() {
                                 <Route
                                     path="/auth/profile"
                                     element={<Profile />}
+                                />
+
+                                <Route
+                                    path="/auth/profile/editProfile"
+                                    element={<EditProfile />}
+                                />
+
+                                <Route
+                                    path="/auth/profile/editPassword"
+                                    element={<EditPassword />}
                                 />
                             </Route>
 

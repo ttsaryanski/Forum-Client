@@ -73,12 +73,21 @@ export function AuthProvider({ children }) {
         setError(null);
         try {
             await authService.logout();
+
+            const cookiesToClear = ["refreshToken"];
+            cookiesToClear.forEach((cookieName) => {
+                document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+                document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
+            });
+
             setAccessToken(null);
             setUser(null);
+            setIsAdmin(false);
             navigate("/");
         } catch (err) {
             setAccessToken(null);
             setUser(null);
+            setIsAdmin(false);
             setError(err.message);
             throw err;
         }
