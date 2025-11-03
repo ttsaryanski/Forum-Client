@@ -6,7 +6,7 @@ import { useError } from "../../../contexts/ErrorContext";
 import { authService } from "../../../services/authService";
 
 export default function Register() {
-    const { setError } = useError();
+    const { setError, setSuccess } = useError();
     const navigate = useNavigate();
 
     const [pending, setPending] = useState(false);
@@ -32,6 +32,7 @@ export default function Register() {
 
         setPending(true);
         setError(null);
+        setSuccess(null);
         try {
             await authService.register({
                 username,
@@ -39,9 +40,12 @@ export default function Register() {
                 password,
             });
 
-            localStorage.setItem("pendingEmail", email);
-            navigate("/auth/welcome");
             clearForm();
+            localStorage.setItem("pendingEmail", email);
+            setSuccess(
+                "Registration successful! Please check your email to verify your account."
+            );
+            navigate("/auth/login");
         } catch (error) {
             setError(`Registration failed: ${error.message}`);
             setPassword("");

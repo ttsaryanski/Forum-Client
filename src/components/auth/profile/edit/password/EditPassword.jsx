@@ -9,7 +9,7 @@ import { authService } from "../../../../../services/authService";
 export default function EditPassword() {
     const navigate = useNavigate();
     const { logout } = useAuth();
-    const { setError } = useError();
+    const { setError, setSuccess } = useError();
 
     const [pending, setPending] = useState(false);
     const [oldPassword, setOldPassword] = useState("");
@@ -31,15 +31,18 @@ export default function EditPassword() {
 
         setPending(true);
         setError(null);
+        setSuccess(null);
         try {
-            const res = await authService.changePassword({
+            await authService.changePassword({
                 currentPassword: oldPassword,
                 newPassword,
             });
 
-            logout();
-            navigate("/auth/login");
             clearForm();
+            await logout();
+
+            setSuccess("Password changed successfully. Please log in again!");
+            navigate("/auth/login");
         } catch (error) {
             setError(`Change password failed: ${error.message}`);
             clearForm();

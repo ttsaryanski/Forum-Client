@@ -22,11 +22,15 @@ export default function Welcome() {
     };
 
     return (
-        <div className="mini-navbar">
-            <h3 style={{ color: "#234456" }}>Welcome!</h3>
-            <p>
-                Registration successful. Please check your email {email} for a
-                confirmation link. Once you verify your account, you can log in.
+        <div className="mini-navbar" style={{ marginTop: "2em" }}>
+            {/* <h3 style={{ color: "#234456" }}>Welcome!</h3> */}
+            <p style={{ fontSize: "0.9rem" }}>
+                Please check your email{" "}
+                <span style={{ color: "#ff5858", fontWeight: "normal" }}>
+                    {email}
+                </span>{" "}
+                for a confirmation link. Once you verify your account, you can
+                log in.
             </p>
             <div className="logged">
                 <ul

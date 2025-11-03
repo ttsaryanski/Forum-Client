@@ -1,4 +1,4 @@
-.error {
+.success {
     margin: 1em auto 0;
     align-self: center;
     max-width: fit-content;
@@ -8,8 +8,8 @@
     margin-bottom: 1rem;
 }
 
-.error p {
-    color: red;
+.success p {
+    color: green;
     background-color: transparent;
 }
 

@@ -83,7 +83,7 @@ export function AuthProvider({ children }) {
             setAccessToken(null);
             setUser(null);
             setIsAdmin(false);
-            navigate("/");
+            //navigate("/");
         } catch (err) {
             setAccessToken(null);
             setUser(null);

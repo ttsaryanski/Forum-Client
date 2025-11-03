@@ -22,6 +22,7 @@ import EditProfile from "./components/auth/profile/edit/profile/EditProfile";
 import EditPassword from "./components/auth/profile/edit/password/EditPassword";
 import Footer from "./components/core/footer/Footer";
 import ErrorMsg from "./components/core/errorComponent/ErrorMsg";
+import SuccessMsg from "./components/core/successComponent/SuccessMsg";
 import Page404 from "./components/page 404/Page404";
 
 import "./App.css";
@@ -33,6 +34,7 @@ function App() {
                 <ErrorBoundary>
                     <Header />
                     <ErrorMsg />
+                    <SuccessMsg />
 
                     <div className="container">
                         <Routes>

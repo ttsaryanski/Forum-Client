@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function VerifedPage() {
     return (
-        <div className="mini-navbar">
-            <h3 style={{ color: "#234456" }}>Welcome!</h3>
+        <div className="mini-navbar" style={{ marginTop: "2em" }}>
+            {/* <h3 style={{ color: "#234456" }}>Welcome!</h3> */}
             <p style={{ padding: "0.3em 0.9em" }}>
                 You have successfully confirmed your email. You can now log in!
             </p>

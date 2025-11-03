@@ -48,7 +48,7 @@ export default function ErrorMsg() {
                             </p>
                         ))
                     ) : (
-                        <p>{error}</p>
+                        <p style={{ padding: "0.5rem 0.9rem" }}>{error}</p>
                     )}
                     <button
                         onClick={() => setError(null)}
