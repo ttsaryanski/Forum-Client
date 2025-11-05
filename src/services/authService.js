@@ -5,6 +5,8 @@ const endPoints = {
     login: "/auth/login",
     logout: "/auth/logout",
     changePassword: "/auth/change-password",
+    forgotPassword: "/auth/forgot-password",
+    resetPassword: (token) => `/auth/reset-password?token=${token}`,
     profile: "/auth/profile",
     resendEmail: (email) => `/auth/resend-email?email=${email}`,
 };
@@ -25,10 +27,24 @@ async function changePassword(data) {
     return await api.post(endPoints.changePassword, data);
 }
 
+async function resetPassword(token, data) {
+    return await api.post(endPoints.resetPassword(token), data);
+}
+
+async function forgotPassword(data) {
+    return await api.post(endPoints.forgotPassword, data);
+}
+
 async function profile(signal) {
     const user = await api.get(endPoints.profile, signal);
 
     return user;
+}
+
+async function editUser(data) {
+    const editedUser = await api.put(endPoints.profile, data);
+
+    return editedUser;
 }
 
 async function resendEmail(email) {
@@ -40,6 +56,9 @@ export const authService = {
     login,
     logout,
     changePassword,
+    resetPassword,
+    forgotPassword,
     profile,
+    editUser,
     resendEmail,
 };

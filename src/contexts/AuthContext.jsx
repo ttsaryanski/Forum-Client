@@ -48,6 +48,10 @@ export function AuthProvider({ children }) {
         };
     }, []);
 
+    const updateUser = (updatedUserData) => {
+        setUser(updatedUserData);
+    };
+
     const login = async (email, password) => {
         setError(null);
         try {
@@ -104,6 +108,7 @@ export function AuthProvider({ children }) {
                 setAccessToken,
                 login,
                 logout,
+                updateUser,
             }}
         >
             {children}

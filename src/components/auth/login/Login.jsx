@@ -111,9 +111,7 @@ export default function Login() {
                     </label>
                     <input
                         className={
-                            touched.username && errors.username
-                                ? "input-error"
-                                : ""
+                            touched.email && errors.email ? "input-error" : ""
                         }
                         type="email"
                         id="email"
@@ -178,8 +176,12 @@ export default function Login() {
                 </button>
 
                 <p className="text-center">
-                    Have an account?
-                    <Link to="/auth/register">Register</Link>
+                    Have an account? <Link to="/auth/register">Register</Link>
+                </p>
+
+                <p className="text-center">
+                    Forgot your password,{" "}
+                    <Link to="/auth/forgotPassword">click here</Link>
                 </p>
             </fieldset>
         </form>

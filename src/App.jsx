@@ -14,12 +14,14 @@ import Themes from "./components/themes/themes/Themes";
 import ThemeDetails from "./components/themes/themeDetails/ThemeDetails";
 import NewTheme from "./components/themes/newTheme/NewTheme";
 import Login from "./components/auth/login/Login";
+import ForgotPassword from "./components/auth/profile/edit/password/ForgotPassword";
 import Register from "./components/auth/register/Register";
 import Welcome from "./components/auth/welcome/Welcome";
 import VerifedPage from "./components/auth/verifedPage/VerifedPage";
 import Profile from "./components/auth/profile/Profile";
 import EditProfile from "./components/auth/profile/edit/profile/EditProfile";
 import EditPassword from "./components/auth/profile/edit/password/EditPassword";
+import NewPassword from "./components/auth/profile/edit/password/NewPassword";
 import Footer from "./components/core/footer/Footer";
 import ErrorMsg from "./components/core/errorComponent/ErrorMsg";
 import SuccessMsg from "./components/core/successComponent/SuccessMsg";
@@ -68,6 +70,16 @@ function App() {
                                 <Route
                                     path="/auth/verified"
                                     element={<VerifedPage />}
+                                />
+
+                                <Route
+                                    path="/auth/forgotPassword"
+                                    element={<ForgotPassword />}
+                                />
+
+                                <Route
+                                    path="/auth/resetPassword/:token"
+                                    element={<NewPassword />}
                                 />
                             </Route>
 
