@@ -200,7 +200,10 @@ export default function EditPassword() {
                         />
                     </p>
                     {touched.oldPassword && errors.oldPassword && (
-                        <p className="error" style={{ fontSize: "9px" }}>
+                        <p
+                            className="error"
+                            style={{ fontSize: "9px", color: "red" }}
+                        >
                             {errors.oldPassword}
                         </p>
                     )}
@@ -231,7 +234,10 @@ export default function EditPassword() {
                         />
                     </p>
                     {touched.newPassword && errors.newPassword && (
-                        <p className="error" style={{ fontSize: "9px" }}>
+                        <p
+                            className="error"
+                            style={{ fontSize: "9px", color: "red" }}
+                        >
                             {errors.newPassword}
                         </p>
                     )}
@@ -262,7 +268,10 @@ export default function EditPassword() {
                         />
                     </p>
                     {touched.rePassword && errors.rePassword && (
-                        <p className="error" style={{ fontSize: "9px" }}>
+                        <p
+                            className="error"
+                            style={{ fontSize: "9px", color: "red" }}
+                        >
                             {errors.rePassword}
                         </p>
                     )}

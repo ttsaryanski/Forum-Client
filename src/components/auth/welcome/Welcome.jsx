@@ -8,14 +8,15 @@ import { useError } from "../../../contexts/ErrorContext";
 export default function Welcome() {
     const email = localStorage.getItem("pendingEmail");
     const navigate = useNavigate();
-    const { setError } = useError();
+    const { setError, setSuccess } = useError();
 
-    const resendEmail = async (email) => {
+    const resendEmail = async () => {
         setError(null);
         try {
-            await authService.resendEmail(email);
+            await authService.resendEmail({ email });
 
             navigate("/auth/login");
+            setSuccess("Confirmation link resent. Please check your email.");
         } catch (error) {
             setError(`Resend failed: ${error.message}`);
         }

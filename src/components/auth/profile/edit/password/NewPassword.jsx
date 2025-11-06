@@ -155,7 +155,10 @@ export default function NewPassword() {
                         />
                     </p>
                     {touched.newPassword && errors.newPassword && (
-                        <p className="error" style={{ fontSize: "9px" }}>
+                        <p
+                            className="error"
+                            style={{ fontSize: "9px", color: "red" }}
+                        >
                             {errors.newPassword}
                         </p>
                     )}
@@ -186,7 +189,10 @@ export default function NewPassword() {
                         />
                     </p>
                     {touched.rePassword && errors.rePassword && (
-                        <p className="error" style={{ fontSize: "9px" }}>
+                        <p
+                            className="error"
+                            style={{ fontSize: "9px", color: "red" }}
+                        >
                             {errors.rePassword}
                         </p>
                     )}

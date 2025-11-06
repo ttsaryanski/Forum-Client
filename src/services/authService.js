@@ -8,7 +8,7 @@ const endPoints = {
     forgotPassword: "/auth/forgot-password",
     resetPassword: (token) => `/auth/reset-password?token=${token}`,
     profile: "/auth/profile",
-    resendEmail: (email) => `/auth/resend-email?email=${email}`,
+    resendEmail: "/auth/resend-email",
 };
 
 async function register(data) {
@@ -47,8 +47,8 @@ async function editUser(data) {
     return editedUser;
 }
 
-async function resendEmail(email) {
-    return await api.post(endPoints.resendEmail(email));
+async function resendEmail(data) {
+    return await api.post(endPoints.resendEmail, data);
 }
 
 export const authService = {
