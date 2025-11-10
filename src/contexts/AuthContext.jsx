@@ -4,6 +4,12 @@ import { useNavigate } from "react-router";
 import { authService } from "../services/authService";
 import { useError } from "./ErrorContext";
 
+import {
+    setAccessToken as setGlobalAccessToken,
+    clearCsrfToken,
+} from "../utils/requester";
+import { refreshAccessToken } from "../utils/refresher";
+
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -24,8 +30,7 @@ export function AuthProvider({ children }) {
                 setIsAdmin(true);
             }
         } catch (err) {
-            setUser(null);
-            if (err.message === "Missing token!") {
+            if (err.message === "Missing access token!") {
                 setError(null);
             } else {
                 setError(err.message);
@@ -41,7 +46,13 @@ export function AuthProvider({ children }) {
         const abortController = new AbortController();
         const signal = abortController.signal;
 
-        fetchUser(signal);
+        (async () => {
+            const refreshed = await refreshAccessToken();
+            if (refreshed) {
+                await fetchUser(signal);
+            }
+            setIsLoading(false);
+        })();
 
         return () => {
             abortController.abort();
@@ -57,6 +68,8 @@ export function AuthProvider({ children }) {
         try {
             const result = await authService.login({ email, password });
             setAccessToken(result.accessToken);
+            setGlobalAccessToken(result.accessToken);
+
             await fetchUser();
             navigate("/themes");
             localStorage.removeItem("pendingEmail");
@@ -65,6 +78,7 @@ export function AuthProvider({ children }) {
                 navigate("/auth/welcome");
             } else {
                 setAccessToken(null);
+                setGlobalAccessToken(null);
                 setError(err.message);
                 throw err;
             }
@@ -85,16 +99,24 @@ export function AuthProvider({ children }) {
             });
 
             setAccessToken(null);
+            setGlobalAccessToken(null);
+            clearCsrfToken();
             setUser(null);
             setIsAdmin(false);
-            //navigate("/");
         } catch (err) {
             setAccessToken(null);
+            setGlobalAccessToken(null);
+            clearCsrfToken();
             setUser(null);
             setIsAdmin(false);
             setError(err.message);
             throw err;
         }
+    };
+
+    const setAccessTokenSync = (token) => {
+        setAccessToken(token);
+        setGlobalAccessToken(token);
     };
 
     return (
@@ -105,7 +127,7 @@ export function AuthProvider({ children }) {
                 isAuthenticated: !!user,
                 isAdmin,
                 isLoading,
-                setAccessToken,
+                setAccessToken: setAccessTokenSync,
                 login,
                 logout,
                 updateUser,

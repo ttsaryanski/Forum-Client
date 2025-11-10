@@ -8,7 +8,9 @@ export function setAccessToken(token) {
 }
 
 async function requester(method, url, data, signal) {
-    await loadCsrfToken();
+    if (!url.includes("/auth/refresh") && !url.includes("/auth/logout")) {
+        await loadCsrfToken();
+    }
 
     const option = {
         method,
@@ -21,7 +23,9 @@ async function requester(method, url, data, signal) {
         option.headers["Authorization"] = `Bearer ${accessToken}`;
     }
 
-    if (method !== "GET" && csrfToken) {
+    const shouldSkipCSRF = url.includes("/auth/refresh") || url.includes("/auth/logout");
+    
+    if (method !== "GET" && csrfToken && !shouldSkipCSRF) {
         option.headers["X-CSRF-Token"] = csrfToken;
     }
 
@@ -98,6 +102,11 @@ export const api = {
 };
 
 let csrfToken = undefined;
+
+export function clearCsrfToken() {
+    csrfToken = undefined;
+}
+
 async function loadCsrfToken() {
     if (!csrfToken) {
         const res = await fetch(host + "/csrf-token", {

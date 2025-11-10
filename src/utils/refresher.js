@@ -11,6 +11,7 @@ export async function refreshAccessToken() {
         if (!response.ok) return false;
 
         const data = await response.json();
+
         setAccessToken(data.accessToken);
         return true;
     } catch {
