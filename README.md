@@ -33,7 +33,7 @@ npm run preview
 2. Click **“Install App”** in the browser prompt.
 3. Once installed, the app works in standalone mode.
 
-### ⚖️ Credits & Ownership
+## ⚖️ Credits & Ownership
 
 **UI/UX Design**: Visual design, layouts, and user interface concepts by SoftUni.
 
