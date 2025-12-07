@@ -1,25 +1,29 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 
-import { useError } from "../../../../../contexts/ErrorContext";
+import { useAuth } from "../../../../../../contexts/AuthContext";
+import { useError } from "../../../../../../contexts/ErrorContext";
 
-import { authService } from "../../../../../services/authService";
+import { authService } from "../../../../../../services/authService";
 
-export default function NewPassword() {
+export default function EditPassword() {
     const navigate = useNavigate();
-    const { token } = useParams();
+    const { logout } = useAuth();
     const { setError, setSuccess } = useError();
 
     const [pending, setPending] = useState(false);
+    const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [rePassword, setRePassword] = useState("");
     const [errors, setErrors] = useState({
+        oldPassword: "",
         newPassword: "",
         rePassword: "",
     });
     const [touched, setTouched] = useState({
-        newPassword: "",
-        rePassword: "",
+        oldPassword: false,
+        newPassword: false,
+        rePassword: false,
     });
 
     const submitHandler = async (e) => {
@@ -29,18 +33,53 @@ export default function NewPassword() {
         setError(null);
         setSuccess(null);
         try {
-            await authService.resetPassword(token, { password: newPassword });
+            await authService.changePassword({
+                currentPassword: oldPassword,
+                newPassword,
+            });
 
             clearForm();
-            setSuccess(
-                "Password reset successfully! You can now log in with your new password."
-            );
+            await logout();
+
+            setSuccess("Password changed successfully. Please log in again!");
             navigate("/auth/login");
         } catch (error) {
-            setError(`Reset password failed: ${error.message}`);
+            setError(`Change password failed: ${error.message}`);
+            clearForm();
         } finally {
             setPending(false);
         }
+    };
+
+    const validateOldPassword = (value) => {
+        if (!value.trim()) {
+            return "Password is required.";
+        }
+        if (value.length < 6) {
+            return "Password must be at least 6 characters long.";
+        }
+        return "";
+    };
+
+    const oldPasswordChangeHandler = (e) => {
+        const value = e.target.value;
+        setOldPassword(value);
+        setErrors((prev) => ({
+            ...prev,
+            oldPassword: validateOldPassword(value),
+        }));
+    };
+
+    const oldPasswordFocusHandler = () => {
+        setTouched((prev) => ({ ...prev, oldPassword: true }));
+    };
+
+    const oldPasswordBlurHandler = () => {
+        setTouched((prev) => ({ ...prev, oldPassword: true }));
+        setErrors((prev) => ({
+            ...prev,
+            oldPassword: validateOldPassword(oldPassword),
+        }));
     };
 
     const validateNewPassword = (value) => {
@@ -107,19 +146,25 @@ export default function NewPassword() {
     };
 
     const clearForm = () => {
+        setOldPassword("");
         setNewPassword("");
         setRePassword("");
     };
 
     const isFormValid =
-        !errors.newPassword && !errors.rePassword && newPassword && rePassword;
+        !errors.oldPassword &&
+        !errors.newPassword &&
+        !errors.rePassword &&
+        oldPassword &&
+        newPassword &&
+        rePassword;
 
     return (
         <div className="profile" style={{ maxWidth: "600px" }}>
             <form
                 className="register"
-                onSubmit={submitHandler}
                 id="register"
+                onSubmit={submitHandler}
                 style={{ width: "100%" }}
             >
                 <i
@@ -127,7 +172,41 @@ export default function NewPassword() {
                     onClick={() => navigate(-1)}
                 ></i>
                 <fieldset>
-                    <h2>Reset Password</h2>
+                    <h2>Edit your password</h2>
+
+                    {/* <!-- password --> */}
+                    <p className="field field-icon">
+                        <label htmlFor="old-password">
+                            <span>
+                                <i className="fas fa-lock"></i>
+                            </span>
+                        </label>
+                        <input
+                            className={
+                                touched.oldPassword && errors.oldPassword
+                                    ? "input-error"
+                                    : ""
+                            }
+                            type="password"
+                            id="old-password"
+                            name="old-password"
+                            placeholder="Old Password"
+                            autoComplete="******"
+                            value={oldPassword}
+                            onChange={oldPasswordChangeHandler}
+                            onFocus={oldPasswordFocusHandler}
+                            onBlur={oldPasswordBlurHandler}
+                            required
+                        />
+                    </p>
+                    {touched.oldPassword && errors.oldPassword && (
+                        <p
+                            className="error"
+                            style={{ fontSize: "9px", color: "red" }}
+                        >
+                            {errors.oldPassword}
+                        </p>
+                    )}
 
                     {/* <!-- password --> */}
                     <p className="field field-icon">
@@ -208,7 +287,7 @@ export default function NewPassword() {
                                 : {}
                         }
                     >
-                        Reset password
+                        Edit Password
                     </button>
                 </fieldset>
             </form>

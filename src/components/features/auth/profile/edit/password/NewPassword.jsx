@@ -1,29 +1,25 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
-import { useAuth } from "../../../../../contexts/AuthContext";
-import { useError } from "../../../../../contexts/ErrorContext";
+import { useError } from "../../../../../../contexts/ErrorContext";
 
-import { authService } from "../../../../../services/authService";
+import { authService } from "../../../../../../services/authService";
 
-export default function EditPassword() {
+export default function NewPassword() {
     const navigate = useNavigate();
-    const { logout } = useAuth();
+    const { token } = useParams();
     const { setError, setSuccess } = useError();
 
     const [pending, setPending] = useState(false);
-    const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [rePassword, setRePassword] = useState("");
     const [errors, setErrors] = useState({
-        oldPassword: "",
         newPassword: "",
         rePassword: "",
     });
     const [touched, setTouched] = useState({
-        oldPassword: false,
-        newPassword: false,
-        rePassword: false,
+        newPassword: "",
+        rePassword: "",
     });
 
     const submitHandler = async (e) => {
@@ -33,53 +29,18 @@ export default function EditPassword() {
         setError(null);
         setSuccess(null);
         try {
-            await authService.changePassword({
-                currentPassword: oldPassword,
-                newPassword,
-            });
+            await authService.resetPassword(token, { password: newPassword });
 
             clearForm();
-            await logout();
-
-            setSuccess("Password changed successfully. Please log in again!");
+            setSuccess(
+                "Password reset successfully! You can now log in with your new password."
+            );
             navigate("/auth/login");
         } catch (error) {
-            setError(`Change password failed: ${error.message}`);
-            clearForm();
+            setError(`Reset password failed: ${error.message}`);
         } finally {
             setPending(false);
         }
-    };
-
-    const validateOldPassword = (value) => {
-        if (!value.trim()) {
-            return "Password is required.";
-        }
-        if (value.length < 6) {
-            return "Password must be at least 6 characters long.";
-        }
-        return "";
-    };
-
-    const oldPasswordChangeHandler = (e) => {
-        const value = e.target.value;
-        setOldPassword(value);
-        setErrors((prev) => ({
-            ...prev,
-            oldPassword: validateOldPassword(value),
-        }));
-    };
-
-    const oldPasswordFocusHandler = () => {
-        setTouched((prev) => ({ ...prev, oldPassword: true }));
-    };
-
-    const oldPasswordBlurHandler = () => {
-        setTouched((prev) => ({ ...prev, oldPassword: true }));
-        setErrors((prev) => ({
-            ...prev,
-            oldPassword: validateOldPassword(oldPassword),
-        }));
     };
 
     const validateNewPassword = (value) => {
@@ -146,25 +107,19 @@ export default function EditPassword() {
     };
 
     const clearForm = () => {
-        setOldPassword("");
         setNewPassword("");
         setRePassword("");
     };
 
     const isFormValid =
-        !errors.oldPassword &&
-        !errors.newPassword &&
-        !errors.rePassword &&
-        oldPassword &&
-        newPassword &&
-        rePassword;
+        !errors.newPassword && !errors.rePassword && newPassword && rePassword;
 
     return (
         <div className="profile" style={{ maxWidth: "600px" }}>
             <form
                 className="register"
-                id="register"
                 onSubmit={submitHandler}
+                id="register"
                 style={{ width: "100%" }}
             >
                 <i
@@ -172,41 +127,7 @@ export default function EditPassword() {
                     onClick={() => navigate(-1)}
                 ></i>
                 <fieldset>
-                    <h2>Edit your password</h2>
-
-                    {/* <!-- password --> */}
-                    <p className="field field-icon">
-                        <label htmlFor="old-password">
-                            <span>
-                                <i className="fas fa-lock"></i>
-                            </span>
-                        </label>
-                        <input
-                            className={
-                                touched.oldPassword && errors.oldPassword
-                                    ? "input-error"
-                                    : ""
-                            }
-                            type="password"
-                            id="old-password"
-                            name="old-password"
-                            placeholder="Old Password"
-                            autoComplete="******"
-                            value={oldPassword}
-                            onChange={oldPasswordChangeHandler}
-                            onFocus={oldPasswordFocusHandler}
-                            onBlur={oldPasswordBlurHandler}
-                            required
-                        />
-                    </p>
-                    {touched.oldPassword && errors.oldPassword && (
-                        <p
-                            className="error"
-                            style={{ fontSize: "9px", color: "red" }}
-                        >
-                            {errors.oldPassword}
-                        </p>
-                    )}
+                    <h2>Reset Password</h2>
 
                     {/* <!-- password --> */}
                     <p className="field field-icon">
@@ -287,7 +208,7 @@ export default function EditPassword() {
                                 : {}
                         }
                     >
-                        Edit Password
+                        Reset password
                     </button>
                 </fieldset>
             </form>

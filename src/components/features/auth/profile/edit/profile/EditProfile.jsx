@@ -1,12 +1,12 @@
 import { useState, useEffect, use } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { authService } from "../../../../../services/authService";
+import { authService } from "../../../../../../services/authService";
 
-import { useAuth } from "../../../../../contexts/AuthContext";
-import { useError } from "../../../../../contexts/ErrorContext";
+import { useAuth } from "../../../../../../contexts/AuthContext";
+import { useError } from "../../../../../../contexts/ErrorContext";
 
-import Spinner from "../../../../shared/spinner/Spinner";
+import Spinner from "../../../../../shared/spinner/Spinner";
 
 export default function EditProfile() {
     const navigate = useNavigate();

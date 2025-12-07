@@ -1,9 +1,9 @@
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
 
-import { authService } from "../../../services/authService";
+import { authService } from "../../../../services/authService";
 
-import { useError } from "../../../contexts/ErrorContext";
+import { useError } from "../../../../contexts/ErrorContext";
 
 export default function Welcome() {
     const email = localStorage.getItem("pendingEmail");

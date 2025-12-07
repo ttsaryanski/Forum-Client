@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router";
 
-import { useAuth } from "../../../contexts/AuthContext";
-import { useError } from "../../../contexts/ErrorContext";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { useError } from "../../../../contexts/ErrorContext";
 
 export default function Login() {
     const { login } = useAuth();

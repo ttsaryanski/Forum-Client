@@ -10,18 +10,19 @@ import ErrorBoundary from "./components/boundary/ErrorBoundary";
 import Header from "./components/core/header/Header";
 import Home from "./components/home/Home";
 import SimpleNews from "./components/aside/SimpleNews";
-import Themes from "./components/themes/themes/Themes";
-import ThemeDetails from "./components/themes/themeDetails/ThemeDetails";
-import NewTheme from "./components/themes/newTheme/NewTheme";
-import Login from "./components/auth/login/Login";
-import ForgotPassword from "./components/auth/profile/edit/password/ForgotPassword";
-import Register from "./components/auth/register/Register";
-import Welcome from "./components/auth/welcome/Welcome";
-import VerifedPage from "./components/auth/verifedPage/VerifedPage";
-import Profile from "./components/auth/profile/Profile";
-import EditProfile from "./components/auth/profile/edit/profile/EditProfile";
-import EditPassword from "./components/auth/profile/edit/password/EditPassword";
-import NewPassword from "./components/auth/profile/edit/password/NewPassword";
+import Themes from "./components/features/themes/themes/Themes";
+import ThemeDetails from "./components/features/themes/themeDetails/ThemeDetails";
+import NewTheme from "./components/features/themes/newTheme/NewTheme";
+import Login from "./components/features/auth/login/Login";
+import ForgotPassword from "./components/features/auth/profile/edit/password/ForgotPassword";
+import Register from "./components/features/auth/register/Register";
+import Welcome from "./components/features/auth/welcome/Welcome";
+import VerifedPage from "./components/features/auth/verifedPage/VerifedPage";
+import Profile from "./components/features/auth/profile/Profile";
+import EditProfile from "./components/features/auth/profile/edit/profile/EditProfile";
+import EditPassword from "./components/features/auth/profile/edit/password/EditPassword";
+import NewPassword from "./components/features/auth/profile/edit/password/NewPassword";
+import Categories from "./components/features/categories/Categories";
 import Footer from "./components/core/footer/Footer";
 import ErrorMsg from "./components/core/errorComponent/ErrorMsg";
 import SuccessMsg from "./components/core/successComponent/SuccessMsg";
@@ -45,6 +46,11 @@ function App() {
                             <Route
                                 path="/simpleNews/:newsId"
                                 element={<SimpleNews />}
+                            />
+
+                            <Route
+                                path="/categories"
+                                element={<Categories />}
                             />
 
                             <Route path="/themes" element={<Themes />} />

@@ -1,11 +1,11 @@
-import Themes from "../themes/themes/Themes";
+import LastFive from "../features/themes/themes/LastFive";
 import News from "../aside/News";
 
 export default function Home() {
     return (
         <>
             <main>
-                <Themes />
+                <LastFive />
             </main>
             <aside>
                 <News />

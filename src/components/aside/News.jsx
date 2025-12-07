@@ -40,7 +40,7 @@ export default function News() {
 
     return (
         <div className="aside">
-            <h2 className="title">News</h2>
+            <h2 className="title">Last News</h2>
             <div>
                 {isLoading && <Spinner />}
 

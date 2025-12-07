@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useError } from "../../../contexts/ErrorContext";
+import { useError } from "../../../../contexts/ErrorContext";
 
-import { authService } from "../../../services/authService";
+import { authService } from "../../../../services/authService";
 
 export default function Register() {
     const { setError, setSuccess } = useError();

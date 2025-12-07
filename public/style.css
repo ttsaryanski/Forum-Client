@@ -179,7 +179,7 @@ p {
     background-color: #234465;
     color: white;
     text-shadow: 1px 1px rgb(121, 117, 117);
-    border-radius: 10px;
+    border-radius: 0.3em;
 }
 
 .theme-name-wrapper {
@@ -240,7 +240,7 @@ time {
 
 aside {
     width: 29%;
-    margin-top: 1em;
+    margin-top: 1rem;
     font-size: 0.8em;
 }
 
@@ -257,7 +257,7 @@ aside {
 }
 
 .title {
-    font-size: 1.5em;
+    font-size: 1.5rem;
     color: #234465;
 }
 
@@ -280,6 +280,7 @@ aside {
 
 .aside-theme p {
     text-align: right;
+    margin: 0.45rem auto;
 }
 
 .aside-theme a {
@@ -826,4 +827,13 @@ h2 {border-bottom: none;}
     left: -250px;
     top: -10px;
     padding: 0px;
+}
+
+.time-and-author {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-top: 0.5rem; */
+    font-size: 0.9rem;
+    color: #555;
 }

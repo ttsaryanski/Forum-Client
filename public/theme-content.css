@@ -29,7 +29,7 @@
 
 .theme-title {
     padding: 0;
-    width: 80%;
+    width: 90%;
 }
 
 .theme-name {
@@ -69,9 +69,9 @@
     text-align: right;
 }
 
-.theme-name {
+/* .theme-name {
     margin-right: 1em;
-}
+} */
 
 .theme-name h2 {
     padding-top: 0;
@@ -223,4 +223,29 @@
 
 .theme-content p {
     padding: 0.3em 0.6em;
+}
+
+.categorys-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto 2em;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #999;
+    border-radius: 0.3em;
+    padding-bottom: 1em;
+    padding: 0.3em 0.5em;
+}
+
+.post-content p {
+    margin-bottom: 0.3rem;
 }

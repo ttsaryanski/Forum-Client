@@ -51,7 +51,7 @@ export default function Header() {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <a href="/themes">Forum</a>
+                        <a href="/categories">Forum</a>
                     </li>
                     {user && (
                         <li>

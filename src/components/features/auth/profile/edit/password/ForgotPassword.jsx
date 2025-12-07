@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import { useError } from "../../../../../contexts/ErrorContext";
+import { useError } from "../../../../../../contexts/ErrorContext";
 
-import { authService } from "../../../../../services/authService";
+import { authService } from "../../../../../../services/authService";
 
 export default function ForgotPassword() {
     const navigate = useNavigate();
