@@ -6,6 +6,7 @@ export default function CommentCard({
     createdAt,
     updatedAt,
     is_edited,
+    likesCount,
     author,
 }) {
     const { formatDate } = useFormatters();
@@ -20,7 +21,11 @@ export default function CommentCard({
             </header>
             <div className="comment-main">
                 <div className="userdetails">
-                    <img src="/profile.png" alt="avatar" />
+                    {author.avatar_url ? (
+                        <img src={author.avatar_url} alt="avatar" />
+                    ) : (
+                        <img src="/profile.png" alt="avatar" />
+                    )}
                 </div>
                 <div className="post-content">
                     <p>{content}</p>
@@ -30,7 +35,7 @@ export default function CommentCard({
                 {/* <!-- <i className="fas fa-thumbs-up"></i>
                     <i className="fas fa-thumbs-down"></i> --> */}
                 <p>
-                    <span>5</span> likes
+                    <span>{likesCount}</span> likes
                 </p>
             </div>
         </div>

@@ -10,7 +10,6 @@ import ErrorBoundary from "./components/boundary/ErrorBoundary";
 import Header from "./components/core/header/Header";
 import Home from "./components/home/Home";
 import SimpleNews from "./components/aside/SimpleNews";
-import Themes from "./components/features/themes/themes/Themes";
 import ThemeDetails from "./components/features/themes/themeDetails/ThemeDetails";
 import NewTheme from "./components/features/themes/newTheme/NewTheme";
 import Login from "./components/features/auth/login/Login";
@@ -52,8 +51,6 @@ function App() {
                                 path="/categories"
                                 element={<Categories />}
                             />
-
-                            <Route path="/themes" element={<Themes />} />
 
                             <Route
                                 path="/theme/details/:themeId"

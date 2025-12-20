@@ -14,7 +14,7 @@ import { useFormatters } from "../../../../hooks/formatters";
 export default function ThemeDetails() {
     const navigate = useNavigate();
     const { themeId } = useParams();
-    const { user } = useAuth();
+    const { user, isAuthenticated } = useAuth();
     const { setError } = useError();
     const { formatDate } = useFormatters();
 
@@ -52,6 +52,15 @@ export default function ThemeDetails() {
             {theme && (
                 <>
                     {/* <!-- theme-title  --> */}
+                    <i
+                        className="fa-solid fa-arrow-left back-icon"
+                        style={{
+                            color: "#234465",
+                            cursor: "pointer",
+                            alignSelf: "flex-start",
+                        }}
+                        onClick={() => navigate(-1)}
+                    ></i>
                     <div className="theme-title-100">
                         <div className="theme-name-wrapper">
                             <div className="theme-name">
@@ -81,25 +90,27 @@ export default function ThemeDetails() {
                             <CommentCard key={comment.id} {...comment} />
                         ))
                     ) : (
-                        <p>No comments yet.</p>
+                        <p style={{ marginTop: "0.5rem" }}>No comments yet.</p>
                     )}
 
-                    <div className="answer-comment">
-                        <p>
-                            <span>currentUser</span> comment:
-                        </p>
-                        <div className="answer">
-                            <form>
-                                <textarea
-                                    name="postText"
-                                    id="comment"
-                                    cols="30"
-                                    rows="10"
-                                ></textarea>
-                                <button>Post</button>
-                            </form>
+                    {isAuthenticated && (
+                        <div className="answer-comment">
+                            <p>
+                                <span>currentUser</span> comment:
+                            </p>
+                            <div className="answer">
+                                <form>
+                                    <textarea
+                                        name="postText"
+                                        id="comment"
+                                        cols="30"
+                                        rows="10"
+                                    ></textarea>
+                                    <button>Post</button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </>
             )}
         </div>

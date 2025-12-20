@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { authService } from "../services/authService";
 import { useError } from "./ErrorContext";
@@ -71,7 +71,6 @@ export function AuthProvider({ children }) {
             setGlobalAccessToken(result.accessToken);
 
             await fetchUser();
-            navigate("/themes");
             localStorage.removeItem("pendingEmail");
         } catch (err) {
             if (err.message === "Please verify your email first!") {

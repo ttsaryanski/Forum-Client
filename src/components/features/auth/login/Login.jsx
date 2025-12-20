@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useError } from "../../../../contexts/ErrorContext";

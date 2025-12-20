@@ -4,7 +4,7 @@ import { useError } from "../../../contexts/ErrorContext";
 
 import { categoryServices } from "../../../services/categoryService";
 
-//import ThemeCard from "./ThemeCard";
+import CategoryCard from "./CategoryCard";
 import Spinner from "../../shared/spinner/Spinner";
 import NothingYet from "../../shared/NothingYet";
 
@@ -41,38 +41,11 @@ export default function Categories() {
     return (
         <div className="categorys-container">
             {isLoading && <Spinner />}
+
             {!isLoading && categories.length === 0 && <NothingYet />}
+
             {categories.length > 0 &&
-                categories.map((category) => (
-                    <>
-                        <h2>{category.name}</h2>
-                        <div className="theme-title">
-                            test
-                            {/* {isLoading && <Spinner />}
-
-                    {!isLoading && news.length === 0 && <NothingYet />}
-
-                    {news.length > 0 &&
-                        news.map((item) => (
-                            <ThemeCard key={item._id} {...item} />
-                        ))} */}
-                        </div>
-                    </>
-                ))}
-            {/* <div className="category-container">
-                <h2>Software</h2>
-                <div className="theme-title">
-                    {isLoading && <Spinner />}
-
-                    {!isLoading && news.length === 0 && <NothingYet />}
-
-                    {news.length > 0 &&
-                        news.map((item) => (
-                            <ThemeCard key={item._id} {...item} />
-                        ))}
-                </div>
-            </div> */}
-            ?
+                categories.map((cat) => <CategoryCard key={cat.id} {...cat} />)}
         </div>
     );
 }

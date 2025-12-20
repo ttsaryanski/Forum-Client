@@ -1,45 +1,32 @@
 import { Link } from "react-router-dom";
 
-import { useFormatters } from "../../../../hooks/formatters";
+import { useFormatters } from "../../../hooks/formatters";
 
-export default function ThemeCard({
+export default function CategoryThemeCard({
     id,
     title,
-    content,
     updatedAt,
     author_name,
-    category_name,
 }) {
     const { formatDate, truncateText } = useFormatters();
 
     return (
-        <div className="theme-container">
+        <div className="theme-container" style={{ width: "100%" }}>
             <div className="theme-name-wrapper">
                 <div className="theme-name">
                     <Link to={`/theme/details/${id}`} className="normal">
-                        <h2>{title} </h2>
+                        <h2 style={{ textAlign: "left" }}>{title} </h2>
                     </Link>
-                    <p>
-                        in{" "}
-                        <span
-                            style={{
-                                color: "white",
-                                textShadow: "0 0 5px #234465",
-                            }}
-                        >
-                            {category_name}
-                        </span>{" "}
-                        category
-                    </p>
+
                     <div
                         className="columns"
                         style={{ flexDirection: "column" }}
                     >
                         {/* <div> */}
                         <div className="nick-name">
-                            <p style={{ borderRadius: "0.25rem" }}>
+                            {/* <p style={{ borderRadius: "0.25rem" }}>
                                 <span>{truncateText(content, 500)}</span>
-                            </p>
+                            </p> */}
                         </div>
                         <div className="time-and-author">
                             <p className="card-time">
