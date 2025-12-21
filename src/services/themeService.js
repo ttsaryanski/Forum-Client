@@ -13,7 +13,12 @@ async function getById(themeId, signal) {
     return await api.get(`${endPoints.getAll}/${themeId}`, signal);
 }
 
+async function createNew(data) {
+    return await api.post(endPoints.getAll, data);
+}
+
 export const themeServices = {
     getLastFive,
     getById,
+    createNew,
 };

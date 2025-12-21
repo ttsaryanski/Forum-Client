@@ -424,12 +424,14 @@ p.error {
     background-color: transparent;
 }
 
-.input-error {
+.input-error,
+.new-theme-content textarea.input-error{
     border-left-color: red;
     border-color: red;
 }
 
-.input-error:focus {
+.input-error:focus,
+.new-theme-content textarea.input-error:focus {
     outline: none;
     border: 1px solid red;
     border-left: 0.4em solid red;
@@ -836,4 +838,14 @@ h2 {border-bottom: none;}
     /* margin-top: 0.5rem; */
     font-size: 0.9rem;
     color: #555;
+}
+
+.select-category {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.red {
+    color: red;
 }
