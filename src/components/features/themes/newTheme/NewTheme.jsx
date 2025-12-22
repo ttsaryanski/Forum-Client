@@ -155,6 +155,11 @@ export default function NewTheme() {
         }));
     };
 
+    const cancelHandler = () => {
+        clearForm();
+        navigate(-1);
+    };
+
     const isFormValid =
         !errors.category &&
         !errors.title &&
@@ -180,10 +185,7 @@ export default function NewTheme() {
                 ) : (
                     <div className="select-category">
                         <div>
-                            <label
-                                htmlFor="category"
-                                // className={styles.required}
-                            >
+                            <label htmlFor="category">
                                 Categories <span className="red">*</span>
                             </label>
                             <div>
@@ -282,7 +284,7 @@ export default function NewTheme() {
                     )}
                 </div>
                 <div className="new-theme-buttons">
-                    <button className="cancel" onClick={() => navigate(-1)}>
+                    <button className="cancel" onClick={cancelHandler}>
                         Cancel
                     </button>
                     <button

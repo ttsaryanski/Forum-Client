@@ -7,7 +7,7 @@ export default function CategoryCard({ id, name, themes }) {
     return (
         <div className="category-container" style={{ margin: "2em auto 0" }}>
             <Link
-                to={`/category/${id}`}
+                to={`/category/details/${id}`}
                 className="normal"
                 style={{ textDecoration: "none" }}
             >

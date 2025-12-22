@@ -22,6 +22,7 @@ import EditProfile from "./components/features/auth/profile/edit/profile/EditPro
 import EditPassword from "./components/features/auth/profile/edit/password/EditPassword";
 import NewPassword from "./components/features/auth/profile/edit/password/NewPassword";
 import Categories from "./components/features/categories/Categories";
+import Category from "./components/features/categories/Category";
 import Footer from "./components/core/footer/Footer";
 import ErrorMsg from "./components/core/errorComponent/ErrorMsg";
 import SuccessMsg from "./components/core/successComponent/SuccessMsg";
@@ -50,6 +51,11 @@ function App() {
                             <Route
                                 path="/categories"
                                 element={<Categories />}
+                            />
+
+                            <Route
+                                path="/category/details/:categoryId"
+                                element={<Category />}
                             />
 
                             <Route

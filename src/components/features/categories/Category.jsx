@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { useError } from "../../../contexts/ErrorContext";
 
@@ -8,10 +9,12 @@ import CategoryCard from "./CategoryCard";
 import Spinner from "../../shared/spinner/Spinner";
 import NothingYet from "../../shared/NothingYet";
 
-export default function Categories() {
+export default function Category() {
+    const navigate = useNavigate();
+    const { categoryId } = useParams();
     const { setError } = useError();
 
-    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -19,10 +22,10 @@ export default function Categories() {
         const signal = abortController.signal;
 
         setError(null);
-        const fetchCategories = async () => {
+        const fetchCategory = async () => {
             try {
-                const res = await categoryServices.getLimit5(signal);
-                setCategories(res);
+                const res = await categoryServices.getById(categoryId, signal);
+                setCategory(res);
             } catch (error) {
                 if (!signal.aborted) {
                     setError(error.message);
@@ -31,21 +34,20 @@ export default function Categories() {
                 setIsLoading(false);
             }
         };
-        fetchCategories();
+        fetchCategory();
 
         return () => {
             abortController.abort();
         };
-    }, [setError]);
+    }, [categoryId, setError]);
 
     return (
         <div className="categorys-container">
             {isLoading && <Spinner />}
 
-            {!isLoading && categories.length === 0 && <NothingYet />}
+            {!isLoading && category === null && <NothingYet />}
 
-            {categories.length > 0 &&
-                categories.map((cat) => <CategoryCard key={cat.id} {...cat} />)}
+            {category !== null && <CategoryCard {...category} />}
         </div>
     );
 }
