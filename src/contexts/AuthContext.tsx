@@ -83,7 +83,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         return () => {
             abortController.abort();
         };
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const updateUser = (updatedUserData: UserType) => {
         setUser(updatedUserData);
@@ -165,4 +165,5 @@ export function AuthProvider({ children }: AuthProviderProps) {
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);

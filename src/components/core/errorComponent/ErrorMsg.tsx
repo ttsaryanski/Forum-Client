@@ -30,7 +30,7 @@ export default function ErrorMsg() {
 
     useEffect(() => {
         setError(null);
-    }, [location.pathname]);
+    }, [setError, location.pathname]);
 
     return (
         <>
