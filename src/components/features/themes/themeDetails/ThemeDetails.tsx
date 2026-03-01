@@ -89,6 +89,12 @@ export default function ThemeDetails() {
                         <button className="unsubscribe">Unsubscribe</button> --> */}
                             </div>
                         </div>
+
+                        <div className="theme-name-wrapper">
+                            <div className="theme-name">
+                                <p style={{textAlign: "left"}}>{theme.content}</p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* <!-- comment  --> */}

@@ -10,6 +10,7 @@ export default function ThemeCard({
     content,
     updatedAt,
     author_name,
+    category_id,
     category_name,
 }: ThemeCardProps) {
     const { formatDate, truncateText } = useFormatters();
@@ -29,7 +30,7 @@ export default function ThemeCard({
                                 textShadow: "0 0 5px #234465",
                             }}
                         >
-                            {category_name}
+                            <Link to={`/category/details/${category_id}`}>{category_name}</Link>
                         </span>{" "}
                         category
                     </p>

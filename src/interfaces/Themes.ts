@@ -6,6 +6,7 @@ export interface LastFiveThemes {
     content: string;
     updatedAt: string;
     author_name?: string;
+    category_id?: string;
     category_name?: string;
 }
 
