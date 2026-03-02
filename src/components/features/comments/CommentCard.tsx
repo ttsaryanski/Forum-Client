@@ -34,7 +34,7 @@ export default function CommentCard({
                     )}
                 </div>
                 <div className="post-content">
-                    <p>{content}</p>
+                    <p style={{overflow: "visible", wordBreak: "break-word", textAlign: "left"}}>{content}</p>
                 </div>
             </div>
             <div className="footer">

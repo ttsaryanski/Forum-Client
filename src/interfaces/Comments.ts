@@ -9,3 +9,8 @@ export interface Comment {
     likesCount: number;
     author: Author;
 }
+
+export interface CreateCommentData {
+    themeId: string;
+    content: string;
+}
