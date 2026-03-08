@@ -33,3 +33,13 @@ export interface CreateThemeData {
     title: string;
     content: string;
 }
+
+export interface PaginatedThemeResponse {
+    data: ThemeWithDetails;
+    pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        pages: number;
+    };
+}

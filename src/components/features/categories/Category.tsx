@@ -8,6 +8,7 @@ import { categoryServices } from "../../../services/categoryService";
 import CategoryCard from "./CategoryCard";
 import Spinner from "../../shared/spinner/Spinner";
 import NothingYet from "../../shared/NothingYet";
+import Pagination from "../../shared/Pagination";
 
 import { Category as CategoryType } from "../../../interfaces/Categories";
 
@@ -16,7 +17,11 @@ export default function Category() {
     const { setError } = useError();
 
     const [category, setCategory] = useState<CategoryType | null>(null);
+    const [totalThemes, setTotalThemes] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+
+    const [curPage, setCurPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -28,11 +33,19 @@ export default function Category() {
             return;
         }
 
+        const query = {
+            page: curPage,
+            limit: 5,
+        };
+
         setError(null);
         const fetchCategory = async (): Promise<void> => {
             try {
-                const res = await categoryServices.getById(categoryId, signal);
-                setCategory(res);
+                const paginatedRes = await categoryServices.getPaginatedById(categoryId, query, signal);
+
+                setCategory(paginatedRes.data);
+                setTotalPages(paginatedRes.pagination.pages);
+                setTotalThemes(paginatedRes.pagination.total);
             } catch (error) {
                 if (!signal.aborted) {
                     setError(error instanceof Error ? error.message : 'Unknown error');
@@ -46,7 +59,11 @@ export default function Category() {
         return () => {
             abortController.abort();
         };
-    }, [categoryId, setError]);
+    }, [categoryId, curPage, setError]);
+
+    const pageChangeHandler = (newPage: number) => {
+        setCurPage(newPage);
+    };
 
     return (
         <div className="categorys-container">
@@ -55,6 +72,18 @@ export default function Category() {
             {!isLoading && category === null && <NothingYet />}
 
             {category !== null && <CategoryCard {...category} themes={category.themes ?? []}/>}
+
+            {category !== null &&
+                <>
+                    <span style={{marginTop: "0.5rem", color: "#234465"}}>All themes in this category is {totalThemes}</span>
+
+                    <Pagination
+                        curPage={curPage}
+                        totalPages={totalPages}
+                        onPageChange={pageChangeHandler}
+                    />
+                </>
+            }
         </div>
     );
 }

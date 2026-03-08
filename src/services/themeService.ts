@@ -4,11 +4,14 @@ import {
     CreateThemeData,
     LastFiveThemes,
     ThemeWithDetails,
+    PaginatedThemeResponse,
 } from "../interfaces/Themes";
 
 const endPoints = {
     getAll: "/themes",
     getTopFive: "/themes/last-five",
+    paginated: (themeId: string, query: { page: number; limit: number }) =>
+        `/themes/${themeId}/paginated?page=${query.page}&limit=${query.limit}`,
 };
 
 async function getLastFive(signal?: AbortSignal) {
@@ -23,8 +26,20 @@ async function createNew(data: CreateThemeData) {
     return api.post<{ themeId: string }>(endPoints.getAll, data, undefined);
 }
 
+async function getPaginatedById(
+    themeId: string,
+    query: { page: number; limit: number },
+    signal?: AbortSignal,
+) {
+    return api.get<PaginatedThemeResponse>(
+        endPoints.paginated(themeId, query),
+        signal,
+    );
+}
+
 export const themeServices = {
     getLastFive,
     getById,
     createNew,
+    getPaginatedById,
 };

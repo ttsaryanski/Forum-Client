@@ -9,6 +9,7 @@ import { commentServices } from "../../../../services/commentService";
 
 import CommentCard from "../../comments/CommentCard";
 import Spinner from "../../../shared/spinner/Spinner";
+import Pagination from "../../../shared/Pagination";
 
 import { useFormatters } from "../../../../hooks/formatters";
 
@@ -22,8 +23,12 @@ export default function ThemeDetails() {
     const { formatDate } = useFormatters();
 
     const [theme, setTheme] = useState<ThemeWithDetails | null>(null);
+    const [totalComments, setTotalComments] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [pending, setPending] = useState(false);
+
+    const [curPage, setCurPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     const [comment, setComment] = useState("");
     const [errors, setErrors] = useState({
@@ -39,7 +44,7 @@ export default function ThemeDetails() {
         return () => {
             abortController.abort();
         };
-    }, [themeId]);
+    }, [themeId, curPage]);
 
     const fetchTheme = async (signal?: AbortSignal): Promise<void> => {
         if (!themeId) {
@@ -48,11 +53,19 @@ export default function ThemeDetails() {
             return;
         }
 
+        const query = {
+            page: curPage,
+            limit: 5,
+        };
+
         setError(null);
         setIsLoading(true);
         try {
-            const res = await themeServices.getById(themeId, signal);
-            setTheme(res);
+            const paginatedRes = await themeServices.getPaginatedById(themeId, query, signal);
+
+            setTheme(paginatedRes.data);
+            setTotalPages(paginatedRes.pagination.pages);
+            setTotalComments(paginatedRes.pagination.total);
         } catch (error) {
             if (!signal || !signal.aborted) {
                 setError(error instanceof Error ? error.message : 'Unknown error');
@@ -109,6 +122,10 @@ export default function ThemeDetails() {
 
     const isFormValid = !errors.comment && comment.trim() !== "";
 
+    const pageChangeHandler = (newPage: number) => {
+        setCurPage(newPage);
+    };
+
     return (
         <div className="theme-content">
             {isLoading && <Spinner />}
@@ -163,6 +180,19 @@ export default function ThemeDetails() {
                         <p style={{ marginTop: "0.5rem" }}>No comments yet.</p>
                     )}
 
+                    {theme.comments_content &&
+                    theme.comments_content.length > 0 &&
+                        <>
+                            <span style={{marginTop: "0.5rem", color: "#234465"}}>All comments is {totalComments}</span>
+
+                            <Pagination
+                                curPage={curPage}
+                                totalPages={totalPages}
+                                onPageChange={pageChangeHandler}
+                            />
+                        </>
+                    }
+                    
                     {isAuthenticated && (
                         <div className="answer-comment">
                             <p>

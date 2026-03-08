@@ -10,3 +10,13 @@ export interface CategoryList {
     id: string;
     name: string;
 }
+
+export interface PaginatedCategoryResponse {
+    data: Category;
+    pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        pages: number;
+    };
+}
