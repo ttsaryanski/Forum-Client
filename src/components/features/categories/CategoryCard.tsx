@@ -13,7 +13,7 @@ interface CategoryCardProps {
 
 export default function CategoryCard({ id, name, themes }: CategoryCardProps) {
     return (
-        <div className="category-container" style={{ margin: "2em auto 0" }}>
+        <div className="category-container" style={{ margin: "1em auto 0" }}>
             <Link
                 to={`/category/details/${id}`}
                 className="normal"

@@ -3,6 +3,7 @@
 @import url('typography.css');
 @import url('responsive.css');
 @import url('theme-content.css');
+@import url('chat-room.css');
 
 body {
     /* max-width: 1366px; */

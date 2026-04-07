@@ -1,0 +1,199 @@
+/* Контейнер за целия чат */
+.chat-room {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.chat-room-header h2 {
+    margin-bottom: 0.25rem;
+}
+
+.chat-room-header p {
+    margin-bottom: 0.5rem;
+}
+
+/* Хедър с аватари на участниците */
+.chat-participants {
+    margin-top: 0.5rem;
+    position: relative;
+}
+
+.chat-participants-list {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background-color: #234465;
+    padding: 0.2rem 0.4rem;
+    border-radius: 999px;
+    max-width: 8rem;
+    overflow: hidden;
+    transition: max-width 0.25s ease, box-shadow 0.25s ease;
+}
+
+.chat-participants:hover .chat-participants-list {
+    max-width: 18rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.chat-participant-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #ff9f00;
+    flex-shrink: 0;
+}
+
+.chat-participant-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chat-participants-more {
+    font-size: 0.75rem;
+    color: #ffffff;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    background-color: rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+}
+
+/* Съобщения */
+.chat-messages {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    max-height: 31rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.chat-message {
+    max-width: 80%;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #f4f4f4;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.chat-message--other {
+    align-self: flex-start;
+    background-color: #e9ecef;
+}
+
+.chat-message--self {
+    align-self: flex-end;
+    background-color: #d1ecf1;
+}
+
+.chat-message-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.chat-message-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.chat-message-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chat-message-meta {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.75rem;
+    color: #555;
+}
+
+.chat-message-author {
+    font-weight: bold;
+    color: #234465;
+}
+
+.chat-message-time {
+    font-size: 0.7rem;
+}
+
+.chat-message-body p {
+    margin: 0;
+    font-size: 0.85rem;
+    word-wrap: break-word;
+}
+
+/* Долен ред – история + импут */
+.chat-room-footer {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.chat-history-button {
+    align-self: flex-start;
+    background-color: #ff9f00;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.chat-history-button:hover {
+    transform: scale(1.02);
+}
+
+.chat-input-form {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.chat-input-field {
+    flex: 1;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.4rem;
+    border: 1px solid #999;
+    font-size: 0.9rem;
+
+    field-sizing: content;
+    min-height: 1.5em; /* Начален размер (един ред) */
+    max-height: 200px; /* Опционално ограничение */
+    resize: none;      /* Скриваме ръчното разпъване */
+}
+
+.chat-input-field:focus {
+    outline: none;
+    border-color: #234465;
+    box-shadow: 0 0 0 2px rgba(35, 68, 101, 0.2);
+}
+
+.chat-input-submit {
+    background-color: #234465;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.chat-input-submit:hover {
+    transform: scale(1.03);
+}
+

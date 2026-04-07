@@ -6,6 +6,7 @@ import { useError } from "./ErrorContext";
 
 import {
     setAccessToken as setGlobalAccessToken,
+    getAccessToken as getGlobalAccessToken,
     clearCsrfToken,
 } from "../utils/requester";
 import { refreshAccessToken } from "../utils/refresher";
@@ -75,6 +76,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         (async (): Promise<void> => {
             const refreshed = await refreshAccessToken();
             if (refreshed) {
+                setAccessToken(getGlobalAccessToken());
                 await fetchUser(signal);
             }
             setIsLoading(false);
@@ -100,6 +102,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             localStorage.removeItem("pendingEmail");
         } catch (err) {
             if (err instanceof Error && err.message === "Please verify your email first!") {
+                localStorage.setItem("pendingEmail", email);
                 navigate("/auth/welcome");
             } else if (err instanceof Error) {
                 setAccessToken(null);

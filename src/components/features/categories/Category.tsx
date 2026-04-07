@@ -9,6 +9,7 @@ import CategoryCard from "./CategoryCard";
 import Spinner from "../../shared/spinner/Spinner";
 import NothingYet from "../../shared/NothingYet";
 import Pagination from "../../shared/Pagination";
+import ChatRoom from "../chatRoom/chatRoom";
 
 import { Category as CategoryType } from "../../../interfaces/Categories";
 
@@ -66,7 +67,8 @@ export default function Category() {
     };
 
     return (
-        <div className="categorys-container">
+        <>
+            <main>
             {isLoading && <Spinner />}
 
             {!isLoading && category === null && <NothingYet />}
@@ -84,6 +86,13 @@ export default function Category() {
                     />
                 </>
             }
-        </div>
+            </main>
+            <aside>
+                <ChatRoom
+                    categoryName={category?.name || "this category"}
+                    categoryId={categoryId || ""}
+                />
+            </aside>
+        </>
     );
 }
