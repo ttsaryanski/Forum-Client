@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 import { useError } from "../../../contexts/ErrorContext";
 
@@ -14,6 +14,7 @@ import ChatRoom from "../chatRoom/chatRoom";
 import { Category as CategoryType } from "../../../interfaces/Categories";
 
 export default function Category() {
+    const location = useLocation();
     const { categoryId } = useParams<{categoryId: string}>();
     const { setError } = useError();
 
@@ -23,6 +24,8 @@ export default function Category() {
 
     const [curPage, setCurPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+
+    const [needVisible, setNeedVisible] = useState(true);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -66,6 +69,10 @@ export default function Category() {
         setCurPage(newPage);
     };
 
+    if (location.pathname === "/category/details/" + categoryId && needVisible) {
+        setNeedVisible(false);
+    }
+
     return (
         <>
             <main>
@@ -73,7 +80,7 @@ export default function Category() {
 
             {!isLoading && category === null && <NothingYet />}
 
-            {category !== null && <CategoryCard {...category} themes={category.themes ?? []}/>}
+            {category !== null && <CategoryCard {...category} themes={category.themes ?? []} needVisible={needVisible}/>}
 
             {category !== null &&
                 <>

@@ -16,6 +16,8 @@ export default function Categories() {
     const [categories, setCategories] = useState<CategoryType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    const [needVisible] = useState(true);
+
     useEffect(() => {
         const abortController = new AbortController();
         const signal = abortController.signal;
@@ -47,7 +49,7 @@ export default function Categories() {
             {!isLoading && categories.length === 0 && <NothingYet />}
 
             {categories.length > 0 &&
-                categories.map((cat) => <CategoryCard key={cat.id} {...cat} themes={cat.themes || []}/>)}
+                categories.map((cat) => <CategoryCard key={cat.id} {...cat} themes={cat.themes || []} needVisible={needVisible}/>)}
         </div>
     );
 }
