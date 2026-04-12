@@ -623,7 +623,7 @@ p.error {
 .profile {
     width: 100%;
     max-width: 500px;
-    margin: 2em auto 1rem;
+    margin: 2em;
     padding: 1em;
     border: .3em solid #234465;
     border-radius: 1em;
