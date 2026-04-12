@@ -5,6 +5,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useError } from "../../../contexts/ErrorContext";
 
 import { messageServices } from "../../../services/messageService";
+import { onTokenRefreshed } from "../../../utils/refresher";
 
 import Spinner from "../../shared/spinner/Spinner";
 
@@ -36,6 +37,10 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [pending, setPending] = useState(false);
 
+    const [typingUsers, setTypingUsers] = useState<Map<number, string>>(
+        new Map(),
+    );
+
     useEffect(() => {
         if (!accessToken) {
             if (socket.connected) {
@@ -45,10 +50,19 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
         }
 
         socket.auth = { token: accessToken };
-
         if (!socket.connected) {
             socket.connect();
         }
+
+        const unsubscribe = onTokenRefreshed((newToken) => {
+            socket.auth = { token: newToken };
+
+            if (socket.connected) {
+                socket.disconnect().connect();
+            } else {
+                socket.connect();
+            }
+        });
 
         const connectHandler = (): void => {
             console.log("Connected to chat server");
@@ -66,6 +80,8 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
         socket.on("connect_error", connectErrorHandler);
 
         return () => {
+            unsubscribe();
+
             socket.off("connect", connectHandler);
             socket.off("disconnect", disconnectHandler);
             socket.off("connect_error", connectErrorHandler);
@@ -73,7 +89,7 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
             socket.disconnect();
         };
     }, [accessToken, setError]);
-    
+
     useEffect(() => {
         if (!categoryId) {
             return;
@@ -91,7 +107,7 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
 
         return () => {
             socket.off("connect", joinRoom);
-            socket.emit("leave_room", categoryId);
+            socket.emit("leave_room", Number(categoryId));
         };
     }, [categoryId]);
 
@@ -104,6 +120,34 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
 
         return () => {
             socket.off("receive_message", messageHandler);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleTyping = ({
+            userId,
+            username,
+        }: {
+            userId: number;
+            username: string;
+        }) => {
+            setTypingUsers((prev) => new Map(prev).set(userId, username));
+        };
+
+        const handleStopTyping = ({ userId }: { userId: number }) => {
+            setTypingUsers((prev) => {
+                const newMap = new Map(prev);
+                newMap.delete(userId);
+                return newMap;
+            });
+        };
+
+        socket.on("typing", handleTyping);
+        socket.on("stop_typing", handleStopTyping);
+
+        return () => {
+            socket.off("typing", handleTyping);
+            socket.off("stop_typing", handleStopTyping);
         };
     }, []);
 
@@ -145,21 +189,28 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
         setError(null);
         setIsLoading(true);
         try {
-            const paginatedRes = await messageServices.getPaginatedByCategoryId(query, signal);
+            const paginatedRes = await messageServices.getPaginatedByCategoryId(
+                query,
+                signal,
+            );
 
             setMessages(paginatedRes.data);
             setTotalPages(paginatedRes.pagination.pages);
             setTotalMessages(paginatedRes.pagination.total);
         } catch (error) {
             if (!signal || !signal.aborted) {
-                setError(error instanceof Error ? error.message : 'Unknown error');
+                setError(
+                    error instanceof Error ? error.message : "Unknown error",
+                );
             }
         } finally {
             setIsLoading(false);
         }
     };
 
-    const submitHandler = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    const submitHandler = async (
+        event: React.FormEvent<HTMLFormElement>,
+    ): Promise<void> => {
         event.preventDefault();
 
         if (!isFormValid) return;
@@ -173,8 +224,27 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
     };
 
     // Input message handlers and validation
-    const messageChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    const typingRef = useRef(false);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const messageChangeHandler = (
+        event: React.ChangeEvent<HTMLTextAreaElement>,
+    ): void => {
         const value = event.target.value;
+
+        if (!typingRef.current) {
+            typingRef.current = true;
+            socket.emit("typing", { categoryId: Number(categoryId) });
+        }
+
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
+            typingRef.current = false;
+            socket.emit("stop_typing", { categoryId: Number(categoryId) });
+        }, 1500);
+
         setInputMessage(value);
         setErrors({ inputMessage: validateMessage(value) });
     };
@@ -187,7 +257,7 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
         }
         if (value.length > 200) {
             return "Message cannot exceed 200 characters.";
-        }   
+        }
         return "";
     };
 
@@ -200,78 +270,120 @@ export default function ChatRoom({ categoryName, categoryId }: ChatRoomProps) {
                     <h2>Chat Room</h2>
                     <p>
                         Welcome to the{" "}
-                        <span style={{ color: "#ff9d00d7" }}>{categoryName}</span>{" "}
+                        <span style={{ color: "#ff9d00d7" }}>
+                            {categoryName}
+                        </span>{" "}
                         chat room!
                     </p>
                 </div>
+                {isAuthenticated ? (
+                    <>
+                        <div className="chat-messages">
+                            {isLoading && <Spinner />}
 
-                <div className="chat-messages">
-                    {isLoading && <Spinner />}
-
-                    {messages.length > 0 && messages.map((message) => (
-                        <div
-                            key={message.id}
-                            className={`chat-message ${Number(user?.id) === message.author.id
-                                ? "chat-message--self"
-                                : "chat-message--other"
-                                }`}
-                        >
-                            <div className="chat-message-header">
-                                <div className="chat-message-avatar">
-                                    <img
-                                        src={message.author.avatar_url}
-                                        alt={message.author.username}
-                                    />
-                                </div>
-                                <div className="chat-message-meta">
-                                    <span className="chat-message-author">
-                                        {message.author.username}
-                                    </span>
-                                    <span className="chat-message-time">
-                                        {formatDate(message.createdAt)}
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="chat-message-body">
-                                <p>{message.content}</p>
-                            </div>
+                            {messages.length > 0 &&
+                                messages.map((message) => (
+                                    <div
+                                        key={message.id}
+                                        className={`chat-message ${
+                                            Number(user?.id) ===
+                                            message.author.id
+                                                ? "chat-message--self"
+                                                : "chat-message--other"
+                                        }`}
+                                    >
+                                        <div className="chat-message-header">
+                                            <div className="chat-message-avatar">
+                                                <img
+                                                    src={
+                                                        message.author
+                                                            .avatar_url
+                                                    }
+                                                    alt={
+                                                        message.author.username
+                                                    }
+                                                />
+                                            </div>
+                                            <div className="chat-message-meta">
+                                                <span className="chat-message-author">
+                                                    {message.author.username}
+                                                </span>
+                                                <span className="chat-message-time">
+                                                    {formatDate(
+                                                        message.createdAt,
+                                                    )}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="chat-message-body">
+                                            <p>{message.content}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            <div ref={messagesEndRef} />
                         </div>
-                    ))}
-                    <div ref={messagesEndRef} />
-                </div>
 
-                <div className="chat-room-footer">
-                    {/* <button
+                        <div className="chat-room-footer">
+                            {/* <button
                         type="button"
                         className="chat-history-button"
                         onClick={handleLoadHistory}
                     >
                         Виж историята
                     </button> */}
-
-                    <form className="chat-input-form" onSubmit={submitHandler}>
-                        <textarea
-                            disabled={!isAuthenticated}
-                            className="chat-input-field"
-                            placeholder="Напишете съобщение..."
-                            value={inputMessage}
-                            onChange={messageChangeHandler}
-                        />
-                        <button className="chat-input-submit"
-                            disabled={!isFormValid || pending}
-                            style={
-                                !isFormValid || pending
-                                    ? {
-                                        cursor: "not-allowed",
-                                        backgroundColor: "#999",
-                                        padding: "0.08rem 0.4rem",
+                            {typingUsers.size > 0 && (
+                                <div
+                                    className="typing-indicator"
+                                    style={{
+                                        color: "#234465",
+                                        textAlign: "left",
+                                    }}
+                                >
+                                    {[...typingUsers.values()].join(", ")} is
+                                    typing...
+                                </div>
+                            )}
+                            <form
+                                className="chat-input-form"
+                                onSubmit={submitHandler}
+                            >
+                                <textarea
+                                    disabled={!isAuthenticated}
+                                    className="chat-input-field"
+                                    placeholder="Напишете съобщение..."
+                                    value={inputMessage}
+                                    onChange={messageChangeHandler}
+                                />
+                                <button
+                                    className="chat-input-submit"
+                                    disabled={!isFormValid || pending}
+                                    style={
+                                        !isFormValid || pending
+                                            ? {
+                                                  cursor: "not-allowed",
+                                                  backgroundColor: "#999",
+                                                  padding: "0.08rem 0.4rem",
+                                              }
+                                            : { padding: "0.08rem 0.4rem" }
                                     }
-                                : {padding: "0.08rem 0.4rem"}
-                            }>
-                            Изпрати
-                        </button>
-                    </form>
-                </div>
+                                >
+                                    Изпрати
+                                </button>
+                            </form>
+                        </div>
+                    </>
+                ) : (
+                    <div
+                        className="typing-indicator"
+                        style={{
+                            color: "#234465",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        Login to join the chat!
+                    </div>
+                )}
             </div>
         </div>
     );

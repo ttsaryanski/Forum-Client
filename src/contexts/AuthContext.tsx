@@ -9,7 +9,7 @@ import {
     getAccessToken as getGlobalAccessToken,
     clearCsrfToken,
 } from "../utils/requester";
-import { refreshAccessToken } from "../utils/refresher";
+import { refreshAccessToken, scheduleRefresh } from "../utils/refresher";
 
 import {User as UserType} from "../interfaces/Users";
 interface AuthProviderProps {
@@ -97,6 +97,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             const result = await authServices.login({ email, password });
             setAccessToken(result.accessToken);
             setGlobalAccessToken(result.accessToken);
+            scheduleRefresh();
 
             await fetchUser();
             localStorage.removeItem("pendingEmail");
